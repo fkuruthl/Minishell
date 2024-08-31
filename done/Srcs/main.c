@@ -6,7 +6,7 @@
 /*   By: fkuruthl <fkuruthl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 13:12:22 by hsalah            #+#    #+#             */
-/*   Updated: 2024/09/01 01:42:10 by fkuruthl         ###   ########.fr       */
+/*   Updated: 2024/09/01 01:47:47 by fkuruthl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@ int	main(int argc, char **argv, char **env)
 {
 	t_minishell	minishell;
 
-	(void) argc;
 	(void) argv;
+	if (argc != 1)
+		return(printf("Incorrect number of arguments"),1);
 	minishell.binlist = assign_binlist();
 	minishell.env = setup_envlist(env);
 	minishell.exit_status = 0;
