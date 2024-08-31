@@ -6,7 +6,7 @@
 /*   By: fkuruthl <fkuruthl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 13:12:22 by hsalah            #+#    #+#             */
-/*   Updated: 2024/09/01 01:41:24 by fkuruthl         ###   ########.fr       */
+/*   Updated: 2024/09/01 01:42:10 by fkuruthl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	init_shell(t_minishell *minishell)
 	minishell->tok_list = NULL;
 }
 
-int	main(int argc, char *argv[], char *env[])
+int	main(int argc, char **argv, char **env)
 {
 	t_minishell	minishell;
 
