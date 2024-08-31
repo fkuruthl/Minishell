@@ -5,7 +5,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 SRCS_DIR = Srcs
-SRCS = $(addprefix $(SRCS_DIR)/, 	main.c main_utils.c main_env_list_utils.c binlist_setup.c general_utils.c general_utils2.c signals.c)
+SRCS = $(addprefix $(SRCS_DIR)/, 	main.c main_utils.c main_env_list_utils.c binlist_setup.c general_utils.c signals.c)
 RDLINE_L = -L/Users/$(USER)/.brew/opt/readline/lib -lreadline
 
 TOK_DIR = Tokenization
