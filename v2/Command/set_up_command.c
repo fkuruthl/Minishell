@@ -6,28 +6,12 @@
 /*   By: hsalah <hsalah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 23:33:31 by hsalah            #+#    #+#             */
-/*   Updated: 2024/08/02 09:44:13 by hsalah           ###   ########.fr       */
+/*   Updated: 2024/09/04 09:37:21 by hsalah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-//This function attempts to solve the following issue:
-//Command: echo hi "lol" "wtf" $EMPTY "hey"
-//Output: hi lol wtf hey (no space b/w wtf and hey)
-//
-//Command: echo hi "lol" "wtf" "$EMPTY" "hey"
-//Output" hi lol wtf  hey (space b/w wtf and hey)
-//
-//So what happens is that for example, we have a command
-//like $EMPTY echo hi, then my tree would have the
-//NODE_CMDPATH as $EMPTY and then the args as
-//echo and hi. But what I am doing is, my tree is built
-//wrong, well not wrong but I cant expand at the tree yet
-//so how can I know if it's empty then, well I cant. So
-//how do I work around this? What I do is that I set up
-//my command struct to ignore the $EMPTY and to build the
-//cmd->cmd_path and cmd->cmd_args array correctly.
 static int	check_empty_expand(t_minishell *shell, char *str)
 {
 	char	*expansion;
@@ -40,15 +24,6 @@ static int	check_empty_expand(t_minishell *shell, char *str)
 	return (free(expansion), 0);
 }
 
-//Upon reviewing the subject pdf, I noticed that I technically don't
-//need to expand the string whilst maintaining the quotes via the
-//function q_expand_str; then proceed to splitting the line (where 
-//the delimeter is any whitespace) whilst mainting the quotes; and then
-//strip the string of the quotes. That's unecessary, you can just straight
-//up check if the expansion is empty, if it is not, then just expand the
-//string and strip the quotes. No need for split_with_quotes(). 
-//If you're intersted, I explain above split_with_quotes() function
-//why this is no longer necessary.
 static void	copy_cmd_args(t_ASTree *node, t_minishell *shell, t_command *cmd)
 {
 	char	*expansion;
@@ -112,27 +87,3 @@ void	set_up_cmd_members(t_ASTree *node, t_minishell *shell, t_command *cmd)
 	else
 		cmd->cmd_path = NULL;
 }
-
-// static void	copy_cmd_path(t_ASTree *node, t_minishell *shell,
-//									t_command *cmd)
-// {
-// 	char	*expansion;
-// 	int		len;
-
-// 	while (node)
-// 	{
-// 		if (!check_empty_expand(shell, node->data))
-// 		{
-// 			expansion = q_expand_str(node->data, shell->env,
-// 					shell->exit_status);
-// 			len = ft_strlen(expansion);
-// 			cmd->cmd_path = (char *)malloc(len + 1);
-// 			ft_strlcpy(cmd->cmd_path, expansion, len + 1);
-// 			free(expansion);
-// 			break ;
-// 		}
-// 		node = node->left;
-// 	}
-// 	if (!node)
-// 		cmd->cmd_path = NULL;
-// }

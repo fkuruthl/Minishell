@@ -47,20 +47,6 @@ int	init_command(t_command *command, int proc_count)
 	return (1);
 }
 
-//this function effectively resets the command struct
-//execept for command->pids and command->pid_i. Similarly,
-//delete_pipe_comand frees everything except members of
-//the command struct. Thus, when I have a pipe, I only call
-//init_command at the very beginning of the execute_pipeline 
-//function and I call delete_command only at the end of the
-//execute_pipeline function. Everytime traverse the tree in
-//between, I call the init_pipe_command and the delete_pipe_
-//command functions. So that everything is freed or reset 
-//except for those two members (command->pids and
-//command->pid_i). That is because the waiter function at the
-//end of execute_pipeline command needs to have the original
-//int *pids attribute and the int pid_i iterator from when
-//we first got into the execute_pipeline function.
 void	init_pipe_command(t_command *command)
 {
 	command->delims = NULL;

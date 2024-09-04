@@ -45,9 +45,6 @@ static char	*allocator(char **buffer, int len)
 	return (*buffer);
 }
 
-//THIS FUNCTION IS UTILIZED WHEN WE HAVE A ${ FOLLOWED BY A TRAILOR WHICH
-//IS VALID BUT NOT INCLUDED IN ENVAR LIST. THUS, THIS FUNCTION COPIES THE
-//STRING WITHOUT THE ${ AND WITHOUT ITS TRAILOR EITHER.
 char	*delpotenvar(char *str, int state)
 {
 	int		i;
@@ -76,29 +73,3 @@ char	*delpotenvar(char *str, int state)
 		buffer[j++] = str[i++];
 	return (buffer[j] = '\0', buffer);
 }
-
-// char	*deldollar(char *str, int state)
-// {
-// 	int		i;
-// 	int		j;
-// 	char	*buffer;
-
-// 	buffer = (char *)malloc(1 * (ft_strlen(str) - 1 + 1));
-// 	if (!buffer)
-// 		return (warn_message(), NULL);
-// 	j = 0;
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		state = choose_state2(str[i], state);
-// 		if (not_stand_alone(str[i], str[i + 1], state))
-// 		{
-// 			i += 1;
-// 			break ;
-// 		}
-// 		buffer[j++] = str[i++];
-// 	}
-// 	while (str[i])
-// 		buffer[j++] = str[i++];
-// 	return (buffer[j] = '\0', buffer);
-// }

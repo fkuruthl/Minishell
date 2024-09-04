@@ -12,9 +12,6 @@
 
 #include "../minishell.h"
 
-//I have the if (shell->env[i] == NULL) check
-//just in case a user unsets the PATH variable.
-//Don't want it to SEGFAULT if that happens.
 char	**get_path_list(t_minishell *shell)
 {
 	char	**buffer;
@@ -39,16 +36,6 @@ char	**get_path_list(t_minishell *shell)
 	return (buffer);
 }
 
-//ft_strjoin frees path_list[i] that is passed to it
-//as an argument. So if the loop breaks, I don't need to
-//reset i, just loop through the rest of the elements in
-//path_list and free them because the previous ones have
-//already been freed by path[i]. I designed it such that
-//that this functionr returns NULL if the user unsets the
-//envar list because then get_path_list (function) would
-//return NULL. So, full_path in here is initalized to NULL
-//and we wont enter any of the while loops so we end up
-//returning NULL
 char	*check_access(t_minishell *shell, t_command *cmd)
 {
 	int		i;

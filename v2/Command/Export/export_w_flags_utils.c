@@ -6,7 +6,7 @@
 /*   By: hsalah <hsalah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:18:28 by hsalah            #+#    #+#             */
-/*   Updated: 2024/08/02 09:43:18 by hsalah           ###   ########.fr       */
+/*   Updated: 2024/09/04 09:36:14 by hsalah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,6 @@ static char	*extract_key(char *str)
 	return (buffer);
 }
 
-//For an update to happen, there has to be an equal
-//sign in both s1 and s2. Simple as that. Otherwise,
-//no update happens. So if I have HI=5 then I do
-//export HI, nothing happens. For detecting that
-//scenario, go to function bool_no_update()
 int	bool_same_key(char *s1, char *s2)
 {
 	char	*key1;
@@ -61,11 +56,6 @@ char	*update_value(char *s1, char *s2)
 	return (buffer);
 }
 
-//applies the bool_same_key to the export arguments
-//to see whether the key of the argument is already
-//present in the list. If yes, then no need to add
-//a new element to the list, just update that element
-//in the list using the update_value function above
 int	check_same_key(char **env_list, char *str)
 {
 	int	i;

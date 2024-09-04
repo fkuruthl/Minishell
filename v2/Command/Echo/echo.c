@@ -12,16 +12,6 @@
 
 #include "../../minishell.h"
 
-//The reason why I have cmd->cmd_args[i][0] != '\0'
-//condition (where i = 0 because I am doing this
-//before i gets incremented, meaning I am checking the
-//first argument) is because if the user passes [echo "" hi]
-//into the commandline argument, then
-//!ft_strncmp("-n", cmd->cmd_args[i], ft_strlen(cmd->cmd_args[i]))
-//would return 0 eveb though "-n" and "" don't match up. That's
-//because ft_strlen(cmd->cmd_args[i]) would end up being 0 and
-//so, ft_strncmp returns 0 and it would seem like a match with
-//"-n" but it is not!
 int	ft_echo(t_minishell *shell, t_command *cmd)
 {
 	int		i;

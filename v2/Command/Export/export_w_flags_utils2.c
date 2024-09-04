@@ -6,7 +6,7 @@
 /*   By: hsalah <hsalah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:12:11 by hsalah            #+#    #+#             */
-/*   Updated: 2024/08/02 09:43:24 by hsalah           ###   ########.fr       */
+/*   Updated: 2024/09/04 09:36:18 by hsalah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ static int	bool_syntax_validity(char c)
 	return (0);
 }
 
-//applies the bool_syntax_validity function
-//to the export arguments
 int	check_export_syntax(char *str)
 {
 	int	i;

@@ -6,7 +6,7 @@
 /*   By: hsalah <hsalah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 18:11:59 by hsalah            #+#    #+#             */
-/*   Updated: 2024/08/02 09:35:51 by hsalah           ###   ########.fr       */
+/*   Updated: 2024/09/04 09:29:35 by hsalah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,6 @@ static void	ast_parse_messages(t_minishell *shell, t_token *head)
 	shell->exit_status = 2;
 }
 
-//Must save the token_list because we need it back to free it from its
-//head. The cmdline() traverses it and will loop it all the way to NULL.
-//So to bring it back, we save it.
 int	generate_ast(t_minishell *shell)
 {
 	t_token	*save;

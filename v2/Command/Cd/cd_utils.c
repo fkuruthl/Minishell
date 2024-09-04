@@ -6,7 +6,7 @@
 /*   By: hsalah <hsalah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 10:53:48 by hsalah            #+#    #+#             */
-/*   Updated: 2024/08/02 09:42:48 by hsalah           ###   ########.fr       */
+/*   Updated: 2024/09/04 09:35:17 by hsalah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,6 @@ char	*copy_new_environ(char *env_var, char *new_val)
 	return (buffer);
 }
 
-//Basically, the purpose of this function is sometimes
-//when you start bash (I guess it depends on cache or
-//something like that), OLDPWD is not there. It gets
-//created whenever you use cd. So to mimic that, we
-//have to use add_old_pwd whenever cd is correctly
-//called in case it wasn't there when we first started
-//our minishell. If we didn't have add_old_pwd, then
-//we would never have an OLDPWD in our minishell.
-//In buffer[j] = (char *)malloc(ft_strlen("OLDPWD") + 
-//ft_strlen(new_val) + 2); The plus 2 is because I want
-//to give space for the '=' sign and the null terminator
 static char	**add_old_pwd(char **env_list, char *new_val)
 {
 	char	**buffer;

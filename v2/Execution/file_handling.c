@@ -6,35 +6,12 @@
 /*   By: hsalah <hsalah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 21:47:32 by hsalah            #+#    #+#             */
-/*   Updated: 2024/08/02 09:25:00 by hsalah           ###   ########.fr       */
+/*   Updated: 2024/09/04 09:34:30 by hsalah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-//This is to handle cases when the user tries to redirect to a
-//directory instead of to a file. I wrote sample cases for this
-//chicanery in my notes. The first if statement checks whether
-//there are quotes in the dir name. If there aren't, then it
-//would actually say ambigous redirect, not that the folder is
-//a directory. The issue arises when we have a dir name with a
-//space in it and environ var that expands to that dir name
-//with the space in it too. So let's say we have a directory called
-//'hey ho' and we do export HI='hey ho'. Now, if we say
-//[echo "hello" >$HI] then it would say ambigous redirect
-//because HI expanded into [hey ho] but since there is a space, it
-//doesn't know what to do and says ambigous redirect. But if we
-//do [echo "hello" >"$HI"], then HI expanded into ["hey ho"] and
-//now, it actually finds our directory called 'hey ho' and says
-//[bash: hey ho: Is a directory]. This issue only arises when
-//we have an environ that expands to dir name with a space in it.
-//In other instances, if I say [>hey ho] directly, then we wouldn't
-//have that problem because only hey is considered as the filename to
-//of the redirection by the tokenizer. Then ho would be interpreted as
-//the command. If I say [echo "hello" >hey ho], then what happens is that
-//echo's arguments would be hello and ho and they redirected output destination
-//would be a file called hey. So basically, a file called hey would contain the
-//string [hey ho].
 static void	dir_handle_err_msg(t_minishell *shell, char *expnd,
 									t_ASTree *node, t_ASTree *rdrnode)
 {
@@ -55,11 +32,6 @@ static void	dir_handle_err_msg(t_minishell *shell, char *expnd,
 	free(expnd);
 }
 
-// This is to handle cases where the environment variable is not
-// found in the envar list. So let's say you never did
-// export TROLL=whatever. If you do echo hello >$TROLL then you
-// would get ambigous redirect and if you do echo hello >"$TROLL"
-// then you would get No such file or directory.
 static void	file_handle_err_msg(t_minishell *shell, char *expnd,
 									t_ASTree *rdrnode)
 {
@@ -83,7 +55,6 @@ static void	file_handle_err_msg(t_minishell *shell, char *expnd,
 	free(expnd);
 }
 
-// The cmd->files[i].fd == -3 check is a remnant of older code so ignore it.
 static int	file_handling_helper(t_command *cmd, t_minishell *shell,
 									char **expnd, t_ASTree **rdrnode)
 {
@@ -136,28 +107,3 @@ int	file_handling(t_ASTree *node, t_minishell *shell, t_command *cmd)
 	}
 	return (1);
 }
-
-// static void	file_handle_err_msg(t_minishell *shell, char *expnd,
-// 									t_ASTree *rdrnode)
-// {
-// 	if (!expnd || !rdrnode->data)
-// 		return ;
-// 	if (access(expnd, F_OK) == 0)
-// 	{
-// 		printf("but did we is the question?\n");
-// 		if (access(expnd, R_OK | W_OK) == -1)
-// 			ft_dprintf(2, "-minishell: %s:  Operation not permitted\n",
-// 				expnd);
-// 	}
-// 	else if (rdrnode->data[0] == '\"')
-// 		ft_dprintf(2, "-minishell: %s: No such file or directory\n",
-// 			expnd);
-// 	else if (rdrnode->data[0] == '$')
-// 		ft_dprintf(2, "-minishell: %s: ambiguous redirect\n",
-// 			rdrnode->data);
-// 	else
-// 		ft_dprintf(2, "-minishell: %s:  No such file or directory\n",
-// 			expnd);
-// 	shell->exit_status = 1;
-// 	free(expnd);
-// }

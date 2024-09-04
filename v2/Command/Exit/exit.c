@@ -6,7 +6,7 @@
 /*   By: hsalah <hsalah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 20:51:22 by hsalah            #+#    #+#             */
-/*   Updated: 2024/08/02 09:43:12 by hsalah           ###   ########.fr       */
+/*   Updated: 2024/09/04 09:35:52 by hsalah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ static int	handle_one_arg(t_command *cmd)
 	}
 }
 
-//we still exit no matter if the arguments are correct
-//or not. But the exit status would differ
 int	ft_exit(t_minishell *shell, t_command *cmd)
 {
 	unsigned char	status;
@@ -63,42 +61,3 @@ int	ft_exit(t_minishell *shell, t_command *cmd)
 	return (shell->exit_status = status, full_free(shell, cmd),
 		exit(status), status);
 }
-
-// //we still exit no matter if the arguments are correct
-// //or not. But the exit status would differ
-// int	ft_exit(t_minishell *shell, t_command *cmd)
-// {
-// 	unsigned char	status;
-// 	int				arg_count;
-
-// 	arg_count = count_exit_args(cmd);
-// 	status = 0;
-// 	if (arg_count > 1)
-// 	{
-// 		if (bool_numeric(cmd->cmd_args[1]))
-// 		{
-// 			ft_dprintf(2, "-minishell: exit: too many arguments\n");
-// 			status = 1;
-// 		}
-// 		else
-// 		{
-// 			ft_dprintf(2, "-minishell: exit: %s: numeric argument required\n",
-// 				cmd->cmd_args[1]);
-// 			status = 255;
-// 		}
-// 	}
-// 	else if (arg_count == 1)
-// 	{
-// 		if (bool_numeric(cmd->cmd_args[1]))
-// 			status = (unsigned char) ft_atoi(cmd->cmd_args[1]);
-// 		else
-// 		{
-// 			ft_dprintf(2, "-minishell: exit: %s: numeric argument required\n",
-// 				cmd->cmd_args[1]);
-// 			status = 2;
-// 		}
-// 	}
-// 	ft_dprintf(1, "exit\n");
-// 	return (shell->exit_status = status, full_free(shell, cmd),
-// 		exit(status), status);
-// }

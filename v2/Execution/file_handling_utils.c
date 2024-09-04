@@ -6,13 +6,12 @@
 /*   By: hsalah <hsalah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 09:57:42 by hsalah            #+#    #+#             */
-/*   Updated: 2024/08/02 09:24:51 by hsalah           ###   ########.fr       */
+/*   Updated: 2024/09/04 09:34:10 by hsalah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-//start at i = 1 because I want to skip the dollar sign
 char	*ft_get_key(char *str)
 {
 	char	*buffer;
@@ -33,16 +32,6 @@ char	*ft_get_key(char *str)
 	return (buffer);
 }
 
-//One thing that can cause an ambigous redirect is if
-//we redirect to an environment variable with a space
-//in it (and no quotes around it). It will always cause an
-//ambigous redirect no matter what. For example, if we do
-//[export HI="hey lol"], what happens is if we do now 
-//[echo "random" >$HI], this cause an ambigous redireciton.
-//But if we do [echo "random" >"$HI"], then it's fine. With
-//quotes it actually does create a file with the name [hey lol].
-//So something like [echo "random" >$HI] is what I am trying 
-//to handle with the function below.
 int	check_ambiguous(t_minishell *shell, char *str)
 {
 	char	*key;

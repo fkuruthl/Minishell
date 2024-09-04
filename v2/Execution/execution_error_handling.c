@@ -6,25 +6,12 @@
 /*   By: hsalah <hsalah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:30:40 by hsalah            #+#    #+#             */
-/*   Updated: 2024/08/02 09:22:23 by hsalah           ###   ########.fr       */
+/*   Updated: 2024/09/04 09:33:00 by hsalah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-//This function is to check if the user has already inserted
-//a path into the commandline. In that case, no need to go to
-//check access. So if a user says /bin/ls, then that just run it
-//straight to execve. If the command exists (and it is not a directory),
-//then execve would ismply execute it, if it does not exist (and it is
-//not a directory), then execve would simply return -1. But if the user
-//just says something like ls, then the command might actually exist so
-//lets prepend a path form the path_list in the check_access function till
-//we find a match. If we find a match, then we return the full path and run
-//it through execve (full path means prepending the path to the command given
-//by the user likes this: the path/command_name). If we do not find a match,
-//then that command does not exist and the my check_access function simply
-//returns NULL which gets passed to execve and returns a -1.
 static int	bool_path_given(char *str)
 {
 	int	i;

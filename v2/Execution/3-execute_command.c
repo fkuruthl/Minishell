@@ -12,8 +12,6 @@
 
 #include "../minishell.h"
 
-//This function is used when we want to execute a command that
-//is not part of a pipeline. 
 void	execute_command(t_minishell *shell, t_command *command, int proc_count)
 {
 	t_ASTree	*tree;

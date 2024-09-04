@@ -12,8 +12,6 @@
 
 #include "../minishell.h"
 
-//Minus two because I am going to delete from the string
-//the $ sign and the '?' mark itself.
 static int	expand_exstat_len(char *str, int exit_status)
 {
 	char	*buffer;
@@ -73,12 +71,6 @@ char	*copy_exit_status(char *str, int exit_status)
 	return (free(extstat_str), buffer);
 }
 
-//This function is to handle cases like
-//echo "heelo" "$42" which outputs heelo 2.
-//Dont worry about it interfering with expansion
-//of environment variables, that's because an
-//environment variable's name is not supposed to
-//start with a number. Thus, if that is the case
 char	*delnumber(char *str, int state)
 {
 	int		i;

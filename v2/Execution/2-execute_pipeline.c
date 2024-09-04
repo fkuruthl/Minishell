@@ -6,7 +6,7 @@
 /*   By: hsalah <hsalah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:40:25 by hsalah            #+#    #+#             */
-/*   Updated: 2024/08/02 09:21:17 by hsalah           ###   ########.fr       */
+/*   Updated: 2024/09/04 09:32:30 by hsalah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,6 @@ static void	pipe_chain_exec(t_ASTree **tree, t_command *cmd,
 	}
 }
 
-////For arguments sake, I will say I have 2 pipes so 3 jobs.
-//I had to copy the fd[0] from the second job (or basically
-//the second call to pipe()) into copy_rd_fd when we have multiple pipes.
-//Here is why:
-//I don't close fd[0], aka piperead from the first job, until the second job is
-//done, because the second job needs to read from it. But what happens is
-//since I did not close the fd[0] from the first job but I pipe on int fd[2]
-//again, this creates a new fd[0] which the child still inherits. Thus, I need
-//to close that one too in the child process even though I don't have to use it
-//for this job, I only have to use it for the third job. Nevertheless, I still
-//have to close it to avoid fd leaks so what I do is I copy it into
-//cmd->copy_rd_fd and close it anyways in the child process.
 void	execute_pipeline(t_minishell *shell, t_command *cmd, int proc_count)
 {
 	int			fd[2];

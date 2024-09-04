@@ -6,7 +6,7 @@
 /*   By: hsalah <hsalah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 19:01:24 by hsalah            #+#    #+#             */
-/*   Updated: 2024/08/02 09:43:15 by hsalah           ###   ########.fr       */
+/*   Updated: 2024/09/04 09:36:05 by hsalah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,6 @@ void	add_prefix(char *env[])
 	}
 }
 
-//we copy the list here because we do not want to
-//make alerations to minishell elist struct. We just
-//rearrange it for the purposes of this function and
-//print the sorted list with the declare -x prefix and
-//tehe quotes before and after the value in the key-value
-//pairs and that's it. Then we free this copy_elist and we
-//get on with the program.
 void	export_no_flags(t_minishell *minishell)
 {
 	char	**elist_copy;
@@ -116,20 +109,3 @@ void	export_no_flags(t_minishell *minishell)
 		free(elist_copy[i++]);
 	free(elist_copy);
 }
-
-/*
-int main(int argc, char *argv[], char *env[])
-{
-	(void)argc;
-	(void)argv;
-
-	printf("----BEFORE REARRANGING----\n");
-	for (int i = 0; env[i] != NULL; i++) {
-		printf("%s\n", env[i]);
-	}
-
-	printf("----AFTER REARRANGING----\n");
-	add_prefix(env);
-
-	return (0);
-}*/

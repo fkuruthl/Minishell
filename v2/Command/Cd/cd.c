@@ -40,10 +40,6 @@ char	*get_value(char **env_list, char *str)
 	return (buffer);
 }
 
-//This is to handle cases where the user says [cd ~]
-//or even [cd ~/path/part1/part2/etc]. That is because
-//you can also go to home like this and not just by
-//saying [cd] on its own like that.
 char	*go_to_home(t_minishell *shell, char *str)
 {
 	char	*new_dir;
@@ -66,9 +62,6 @@ char	*go_to_home(t_minishell *shell, char *str)
 	return (free(home_path), new_dir);
 }
 
-//This is to handle when the user says [cd -] which
-//prints the OLDPWD path in the terminal and it actually
-//takes you back to the OLDPWD
 char	*go_to_oldpwd(t_minishell *shell)
 {
 	char	*new_dir;
@@ -82,13 +75,6 @@ char	*go_to_oldpwd(t_minishell *shell)
 	return (free(oldpwd_path), new_dir);
 }
 
-//In the if (arg_count == 0 || (arg_count == 1 && !(cmd->cmd_args[1][0])))
-//statement, the second half of the or statement is there to check if the
-//user does [cd ""] or [cd $FOO] (where FOO is not a valid envar and thus,
-//it expands to an empty string, rednering it the same as [cd ""]); in such
-//scenarios, cd actually takes you to the home directory. The first half is
-//pretty obvious, if you just do [cd], then it also takes you to the home
-//directory.
 char	*assign_new_dir(t_minishell *shell, t_command *cmd)
 {
 	char	*home_path;

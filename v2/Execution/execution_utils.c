@@ -6,7 +6,7 @@
 /*   By: hsalah <hsalah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 19:27:35 by hsalah            #+#    #+#             */
-/*   Updated: 2024/08/02 09:23:54 by hsalah           ###   ########.fr       */
+/*   Updated: 2024/09/04 09:33:37 by hsalah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,47 +83,6 @@ int	call_built_ins(t_minishell *shell, t_command *command)
 	return (0);
 }
 
-// 		--- cmd->pids[i] == -2 EXPLANATION ---
-//
-// When we have a pipeline that contains built-in
-// functions, we cannot use waitpid to wait on them
-// because they are not forked. So, whenever we have
-// a built-in function, I set that pid to -2 manually
-// so that I do not execute a waitpid call on that
-// command. This was the cleanest way I could think
-// of. Because the pids are automatically assigned by
-// the fork function, so I just defaulted to setting it
-// to -2 for built-in functions.
-// 
-// Now you could argue, why not just assign the non-built 
-// in functions to the pid array.So for instance, if 
-// cat <infile | echo "hi" | wc -l (I know that command line
-// is stupid but whatever), then in that case, why not just
-// have a pid array of 2 and only store the cat command 
-// process pid and the wc -l process pid? That's because I
-// need my total proc_count to add up to 3. That's the only
-// way my waiter function would work. If I have 3 processes, I
-// want to wait 3 times. But, if one (for example) of them is
-// built in, then just skip that process. Otherwise, I would have
-// to have a parses in my proc_count() function that checks which
-// commands are built-in or not from the tree itself and that's
-// just too much of a hassle. Keep the proc_count() function
-// simple and just skip the waitpid() call on any of the
-// built-in functions by just setting the index pids[i] to -2 for
-// that particular command in the pipeline.
-//
-//
-//		--- stat_flag EXPLANATION ---
-// stat_flag is pretty easy to understand. If I am executing a
-// built-in function, then I set stat_flag to 0. Otherwise, I set
-// it to 1. If it is 1, that means that it was executed via execve
-// and so, I let the waitpid function return the automatically 
-// generated exit status to save_status (and subsequently to
-// shell->status). Otherwise, if the function was a built-in 
-// function, then, I leave the shell->exit_status untouched in the
-// waiter function because my built-in functions themselves would
-// have handled the exit status automatically (that's the way I
-// designed the code).
 void	waiter(t_minishell *shell, t_command *cmd,
 				int proc_count, int stat_flag)
 {

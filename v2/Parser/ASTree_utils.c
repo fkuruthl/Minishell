@@ -6,7 +6,7 @@
 /*   By: hsalah <hsalah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 18:28:36 by hsalah            #+#    #+#             */
-/*   Updated: 2024/08/02 09:35:33 by hsalah           ###   ########.fr       */
+/*   Updated: 2024/09/04 09:29:15 by hsalah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,52 +68,3 @@ void	delete_node(t_ASTree *node)
 	free(node->data);
 	free(node);
 }
-
-// void    print_tree(t_ASTree *node, int space)
-// {
-//     int count = 10;
-
-//     if (!node)
-//         return ;
-//     space += count;
-
-//     print_tree(node->right, space);
-
-//     printf("\n");
-//     for (int i = count; i < space; i++)
-//     {
-//         printf(" ");
-//     }
-//     if (node->type == NODE_PIPE)
-//         printf("|\n");
-//     else if (node->type == NODE_RDRGEN)
-// 		printf("REDIRGEN\n");
-// 	else if (node->type == NODE_RDIN)
-// 	{
-// 		printf("RDIN");
-// 		printf("(%s)\n", node->data);
-// 	}
-// 	else if (node->type == NODE_RDOUT)
-// 	{
-// 		printf("RDOUT");
-// 		printf("(%s)\n", node->data);
-// 	}
-// 	else if (node->type == NODE_APND)
-// 	{
-// 		printf("APND");
-// 		printf("(%s)\n", node->data);
-// 	}
-// 	else if (node->type == NODE_HDOC)
-// 	{
-// 		printf("HDOC");
-// 		printf("(%s)\n", node->data);
-// 	}
-//     else
-// 	{	
-// 		if (node->data)
-// 			printf("%s\n", node->data);
-// 		else
-// 			printf("NULL (node data)\n");
-// 	}
-//     print_tree(node->left, space);
-// }

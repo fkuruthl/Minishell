@@ -12,15 +12,6 @@
 
 #include "../minishell.h"
 
-//THIS FUNCTION FINDS HOW MUCH LEN SHOULD WE ADD TO THE NEW
-//STRING AND HOW MUCH LEN WE SHOULD SUBTRACT. SO IF I HAVE
-//A [$USER] IN MY STRING AND USER=MR.MOSES. THEN I NEED TO ADD
-//THE LEN OF MR.MOSES WHICH IS 8 AND SUBTRACT THE LEN OF $USER 
-//WHICH IS 5. SO THE DIFF LEN IS 8 - 5 = 3. MEANING WE NEED
-//TO MALLOC THREE MORE CHARACTERS. IF THE DIFF LEN IS NEGATIVE
-//WHICH IS TOTALLY POSSIBLE, WE MALLOC FEWER CHARACTERS THAN THE
-//ORIGINAL STRING.
-//sub_len = i plus 1 because we want to delete the $
 static int	get_diff_len(char *env)
 {
 	int	sub_len;
@@ -40,9 +31,6 @@ static int	get_diff_len(char *env)
 	return (add_len - sub_len);
 }
 
-//THIS FUNCTION DETECTS WHETHER THE TRAILOR OF THE $ SIGN
-//IS AVAILABLE IN THE ENVAR LIST OR NOT. IF IT IS, IT GOES
-//OVER TO COPIER, OTHERWISE IT RETURNS NULL.
 char	*detector(char *str, int s_ind, char *env[])
 {
 	char	*buffer;

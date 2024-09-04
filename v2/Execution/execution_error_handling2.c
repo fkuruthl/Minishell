@@ -6,61 +6,12 @@
 /*   By: hsalah <hsalah@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:34:47 by hsalah            #+#    #+#             */
-/*   Updated: 2024/08/02 09:23:47 by hsalah           ###   ########.fr       */
+/*   Updated: 2024/09/04 09:33:28 by hsalah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// If execve fails (for instance if the command is not found),
-// then we head back to the rest of the code but within the child
-// process! It would be a fiasco, it's like we would go into another
-// minishell process simultaneously, and the main parent process would
-// continue to wait for it. It is just very poor practice if left
-// unhandled.
-// 
-// One other thing you might notice is that when you attempt to handle
-// the execve errors by printing a message, like "minishell: X command
-// not found" and you had an output redirection in that command, that
-// error message would go to the outfile instead of the STDOUT. That's
-// because you have done dup2(outfile_fd, STDOUT_FILENO) so the STDOUT
-// now refers to the file description of outfile_fd and no longer the
-// stdout. So what you could do instead one of two things:
-//		1. print the error message to STDERR_FILENO instead
-//		2. save your stdout fd to a variable which I called
-//			cmd->save_stdout and dup the STDOUT_FILENO back
-//			to the cmd->save_stdout by saying
-//			dup2(cmd->save_stdout, STDOUT_FILENO). But this
-//			option is kinda bad. Because it is standard practice
-//			to output errors to STDERR anyways. Additionaly, the
-//			minishell tester would accept your error handling
-//			only if it is printed to STDERR. So even if the error
-//			message was handled correctly, the tester would give
-//			you a KO. Lastly, I can't remember why exactly but this
-//			option also gave me an fd_leak that I was unable to solve.
-//
-// 
-// Because I was initally trying to go for option 2, you can see the
-// remnants of this method in the following lines of my code:
-// 		dup2(cmd->save_stdout, STDOUT_FILENO);
-// 		dup2(cmd->save_stdin, STDIN_FILENO);
-// 		close(cmd->save_stdout);
-// 		close(cmd->save_stdin);
-// Technically this is unecessary now as you don't really need to
-// save stdout and stdin when you use execve (even if it fails) 
-// because we will always be within a child process that HAS to be
-// exited. Nevertheless, you would still need to save your stdout and
-// stdin for when you use built-in functions; but here, it is uneccesary
-// because we will always be running a child process if the command is
-// not a built-in. So technically, you would only have to
-// cmd->save_stdout = dup(STDOUT_FILENO) and 
-// cmd->save_stdin = dup(STDIN_FILENO) when you detect a built-in function.
-// In my code though, I unecessarily save them everytime.
-//
-//
-// Lastly, just for additional info, ERRNO 13 is the EACCESS error which 
-// is the Permission Denied error (can read more about this error code in
-// man execve).
 void	handle_execve_error(t_minishell *shell, t_command *cmd)
 {
 	int	exit_code;
@@ -88,10 +39,6 @@ void	handle_execve_error(t_minishell *shell, t_command *cmd)
 	exit(exit_code);
 }
 
-//If you give a dirname (without a slash or a path) in place of a command
-//(even with args), bash says "dirname: command not found". If you give a 
-//dirname (with a slash or a path) in place of a command (even with args),
-//bash says "Dirname is a directory".
 static void	check_dir_message(t_minishell *shell, t_command *cmd, char *str)
 {
 	if (!ft_strchr(cmd->cmd_path, '/'))
@@ -107,16 +54,6 @@ static void	check_dir_message(t_minishell *shell, t_command *cmd, char *str)
 	}
 }
 
-//We need to check if what has been inserted into the commandline
-//where you would place the command, aka cmdpath, is the syntax of
-//a directory. If it is, and even if the folder does not exist
-// then it shouldn't say command not found! It should say blah blah
-//no such file or directory. But sometimes,
-//if we have dir_syntax, it could be the path to an executable like
-//for example, /bin/ls; so in that case, I want to use access to see
-//whether it exists or not, if it does, don't return 0. But if we
-//have something like /bin/happydays; there is no executable with
-//that name so It should say no such file or directory for hapyydays.
 static int	check_dir_syntax(char *str)
 {
 	if (str[0] != '.' && ft_strchr(str, '/'))
@@ -151,13 +88,6 @@ static int	dir_res_scenarios(t_minishell *shell, t_command *cmd, DIR *dir_res)
 		return (0);
 }
 
-//We need to check if what has been inserted into the commandline
-//where you would place the command, aka cmdpath, is the name of
-//a directory. If it is, then it shouldn't say command not found!
-//It should say blah blah is a directory. So let's give an example.
-//I say in the commandline [dirname "hello world"]. In that case,
-//it wouldn't say bash: dirname: command not found. It would instead
-//say bash: dirname: is a directory. So we need to handle that issue.
 int	check_directory(t_minishell *shell, t_command *cmd)
 {
 	DIR		*dir_res;
